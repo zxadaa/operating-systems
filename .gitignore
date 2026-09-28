@@ -1,0 +1,25 @@
+.DS_Store
+*.o
+
+# Compiled exercise binaries
+lab1/**/main
+lab1/**/child
+lab2/**/main
+lab2/**/child
+lab3/1/ex1
+lab3/2/program1
+lab3/2/program2
+lab4/client
+lab4/server
+lab5/1
+lab5/2
+lab5/3
+lab6/program1
+lab6/program2
+lab6/program3
+lab7/client
+lab7/server
+
+# Generated lab output
+lab6/robot_log.txt
+lab6/report.txt

@@ -1,0 +1,32 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -fPIC -D_POSIX_C_SOURCE=199309L
+LIB_OBJS = sig_default.o sig_mask.o sig_ignore.o sig_handle.o
+
+all: static
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+libsignals.a: $(LIB_OBJS)
+	ar rcs $@ $^
+
+libsignals.so: $(LIB_OBJS)
+	$(CC) -shared -o $@ $^
+
+
+main: main.c
+	$(CC) $(CFLAGS) main.c -o main
+
+
+static: main libsignals.a
+	$(CC) $(CFLAGS) child.c libsignals.a -o child
+
+shared: main libsignals.so
+	$(CC) $(CFLAGS) child.c -L. -lsignals -Wl,-rpath=. -o child
+
+dynamic: main libsignals.so
+	$(CC) $(CFLAGS) -DDYNAMIC_LOAD child.c -ldl -o child
+
+
+clean:
+	rm -f *.o *.a *.so main child
